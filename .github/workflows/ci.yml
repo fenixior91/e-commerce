@@ -63,3 +63,14 @@ jobs:
           SPRING_DATASOURCE_USERNAME: testuser
           SPRING_DATASOURCE_PASSWORD: testpass
         run: mvn -B clean verify
+
+      - name: Ensure MySQL and orphan processes are cleaned up
+        if: always()
+        run: |
+          echo "Cleaning up MySQL and orphaned processes..."
+          sudo pkill -9 -f mysql || true
+          sudo pkill -9 -f mvn || true
+          docker ps -aq | xargs -r docker stop || true
+          docker system prune -af || true
+          echo "Cleanup done."
+          exit 0
