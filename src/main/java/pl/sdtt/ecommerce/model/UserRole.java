@@ -1,5 +1,5 @@
 package pl.sdtt.ecommerce.model;
 
-public enum Role {
+public enum UserRole {
     USER, ADMIN
 }

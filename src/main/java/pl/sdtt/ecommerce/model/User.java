@@ -44,6 +44,9 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Address> addresses = new HashSet<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Order> orders = new HashSet<>();
+
     @Column(nullable = false, unique = true)
     private String username;
 
@@ -54,7 +57,7 @@ public class User {
     private String email;
 
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private UserRole role;
 
     @Column(name = "created_at", updatable = false)
     @CreationTimestamp

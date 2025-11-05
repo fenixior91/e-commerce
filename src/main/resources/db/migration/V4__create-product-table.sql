@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS products;
 CREATE TABLE products
 (
     id             BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    version        INT UNSIGNED DEFAULT 0,
+    version        INT DEFAULT 0,
     name           VARCHAR(255),
     description    TEXT,
     price          DECIMAL(10, 2),

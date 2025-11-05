@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE users
 (
     id         BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    version    INT UNSIGNED           DEFAULT 0,
+    version    INT                    DEFAULT 0,
     username   VARCHAR(255) NOT NULL UNIQUE,
     password   VARCHAR(255) NOT NULL,
     email      VARCHAR(255) NOT NULL UNIQUE,
