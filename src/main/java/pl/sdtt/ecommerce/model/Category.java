@@ -37,7 +37,7 @@ public class Category {
     private int version;
 
     @OneToMany(mappedBy = "category")
-    private Set<Product> products = new HashSet<>();
+    private Set<Product> products;
 
     private String name;
 

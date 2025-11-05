@@ -44,7 +44,7 @@ public class Address {
     private User user;
 
     @OneToMany(mappedBy = "address", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Order> orders = new HashSet<>();
+    private Set<Order> orders;
 
     private String street;
 

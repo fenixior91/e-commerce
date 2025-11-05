@@ -1,9 +1,11 @@
 package pl.sdtt.ecommerce.mappers;
 
+import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import pl.sdtt.ecommerce.dto.CategoryDTO;
 import pl.sdtt.ecommerce.model.Category;
 
+@Mapper
 public interface CategoryMapper {
 
     @Mapping(target = "version", ignore = true)
