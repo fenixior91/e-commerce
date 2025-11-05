@@ -20,6 +20,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import pl.sdtt.ecommerce.enums.OrderStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
