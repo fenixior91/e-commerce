@@ -1,0 +1,23 @@
+{
+  "id": 1,
+  "version": 0,
+  "name": "Product updated",
+  "description": "Product description updated",
+  "price": 22,
+  "stockQuantity": 9,
+  "imageUrl": "https://example.com",
+  "cartItems": [],
+  "orderItems": [],
+  "reviews": [],
+  "category": {
+    "id": 1,
+    "version": 0,
+    "name": "Category",
+    "description": "Category description",
+    "products": [],
+    "createdAt": "2025-11-06T14:30:15",
+    "updatedAt": "2025-11-06T14:30:15"
+  },
+  "createdAt": "2025-11-06T14:30:15",
+  "updatedAt": "2025-11-06T14:30:15"
+}

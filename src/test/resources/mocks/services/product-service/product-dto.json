@@ -1,0 +1,8 @@
+{
+  "name": "Product updated",
+  "description": "Product description updated",
+  "price": 22,
+  "stockQuantity": 9,
+  "imageUrl": "https://example.com",
+  "categoryId": 1
+}

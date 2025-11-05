@@ -1,0 +1,14 @@
+{
+  "id": 1,
+  "version": 0,
+  "name": "Product",
+  "description": "Product description",
+  "price": 21.37,
+  "stockQuantity": 10,
+  "imageUrl": "https://example.com",
+  "cartItems": [],
+  "orderItems": [],
+  "reviews": [],
+  "createdAt": "2025-11-06T14:30:15",
+  "updatedAt": "2025-11-06T14:30:15"
+}

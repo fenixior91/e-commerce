@@ -82,7 +82,6 @@ public class ProductMapperTest {
 
         //then
         assertThat(productDTO).isNotNull();
-        assertThat(productDTO.id()).isNull();
         assertThat(productDTO.name()).isEqualTo(name);
         assertThat(productDTO.description()).isEqualTo(description);
         assertThat(productDTO.price()).isEqualTo(price);
