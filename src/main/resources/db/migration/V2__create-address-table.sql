@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS addresses;
 CREATE TABLE addresses
 (
     id         BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    version    INT UNSIGNED DEFAULT 0,
+    version    INT DEFAULT 0,
     user_id    BIGINT UNSIGNED,
     street     VARCHAR(255),
     city       VARCHAR(255),
