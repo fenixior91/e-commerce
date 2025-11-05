@@ -7,6 +7,7 @@ public record UserDTO(
         Long cartId,
         String username,
         String password,
+        String email,
         UserRole role
 ) {
 }
