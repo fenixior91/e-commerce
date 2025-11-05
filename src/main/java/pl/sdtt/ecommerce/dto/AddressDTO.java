@@ -1,5 +1,8 @@
 package pl.sdtt.ecommerce.dto;
 
+import lombok.Builder;
+
+@Builder
 public record AddressDTO(
         Long id,
         Long userId,
