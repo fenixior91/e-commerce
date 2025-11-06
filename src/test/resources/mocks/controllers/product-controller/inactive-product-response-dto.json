@@ -4,6 +4,6 @@
   "price": 22,
   "stockQuantity": 9,
   "imageUrl": "https://example.com",
-  "active": true,
+  "active": false,
   "categoryId": 1
 }

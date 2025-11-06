@@ -1,5 +1,6 @@
 package pl.sdtt.ecommerce.services;
 
+import pl.sdtt.ecommerce.dto.product.ProductActiveStatusDTO;
 import pl.sdtt.ecommerce.dto.product.ProductRequestDTO;
 import pl.sdtt.ecommerce.dto.product.ProductResponseDTO;
 
@@ -17,4 +18,6 @@ public interface ProductService {
     Optional<ProductResponseDTO> update(Long id, ProductRequestDTO productDTO);
 
     void delete(Long id);
+
+    Optional<ProductResponseDTO> changeActiveStatus(Long id, ProductActiveStatusDTO activeStatusDTO);
 }

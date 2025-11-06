@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import pl.sdtt.ecommerce.JsonTestUtils;
+import pl.sdtt.ecommerce.dto.product.ProductActiveStatusDTO;
 import pl.sdtt.ecommerce.dto.product.ProductRequestDTO;
 import pl.sdtt.ecommerce.dto.product.ProductResponseDTO;
 import pl.sdtt.ecommerce.mappers.ProductMapper;
@@ -202,6 +203,7 @@ public class ProductServiceTest {
         // then
         verify(productRepository).findById(productIdArgumentCaptor.capture());
         assertThat(productIdArgumentCaptor.getValue()).isEqualTo(1L);
+        verify(productRepository, times(0)).save(any());
     }
 
     @Test
@@ -222,6 +224,42 @@ public class ProductServiceTest {
         verify(categoryRepository).findById(categoryIdArgumentCaptor.capture());
         assertThat(categoryIdArgumentCaptor.getValue()).isEqualTo(1L);
         verify(productRepository, times(0)).save(product);
+    }
+
+
+    @Test
+    void testUpdateActiveStatus() {
+        // given
+        ProductActiveStatusDTO activeStatusDTO = new ProductActiveStatusDTO(false);
+        Product productEntity = JsonTestUtils.loadMock("mocks/services/product-service/product-entity.json", Product.class);
+        Product inactiveProductEntity = JsonTestUtils.loadMock("mocks/services/product-service/inactive-product-entity.json", Product.class);
+
+        given(productRepository.findById(1L)).willReturn(Optional.of(productEntity));
+        given(productRepository.save(any())).willReturn(inactiveProductEntity);
+
+        // when
+        Optional<ProductResponseDTO> actual = productServiceImpl.changeActiveStatus(1L, activeStatusDTO);
+
+        // then
+        assertThat(actual).isPresent();
+        assertThat(actual.get().active()).isFalse();
+
+        verify(productRepository).findById(productIdArgumentCaptor.capture());
+        verify(productRepository).save(productArgumentCaptor.capture());
+
+        assertThat(productIdArgumentCaptor.getValue()).isEqualTo(1L);
+        assertThat(productArgumentCaptor.getValue().isActive()).isFalse();
+    }
+
+    @Test
+    void testUpdateActiveStatus_whenProductNotFound() {
+        ProductActiveStatusDTO activeStatusDTO = new ProductActiveStatusDTO(false);
+
+        assertThrows(EntityNotFoundException.class, () -> productServiceImpl.changeActiveStatus(1L, activeStatusDTO));
+
+        verify(productRepository).findById(productIdArgumentCaptor.capture());
+        assertThat(productIdArgumentCaptor.getValue()).isEqualTo(1L);
+        verify(productRepository, times(0)).save(any());
     }
 
     // delete

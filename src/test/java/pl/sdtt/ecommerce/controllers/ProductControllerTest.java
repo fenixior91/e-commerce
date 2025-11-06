@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import pl.sdtt.ecommerce.JsonTestUtils;
+import pl.sdtt.ecommerce.dto.product.ProductActiveStatusDTO;
 import pl.sdtt.ecommerce.dto.product.ProductRequestDTO;
 import pl.sdtt.ecommerce.dto.product.ProductResponseDTO;
 import pl.sdtt.ecommerce.services.ProductService;
@@ -26,6 +27,7 @@ import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -51,6 +53,9 @@ public class ProductControllerTest {
 
     @Captor
     ArgumentCaptor<ProductRequestDTO> productRequestDTOArgumentCaptor;
+
+    @Captor
+    ArgumentCaptor<ProductActiveStatusDTO> productActiveStatusDTOArgumentCaptor;
 
     @Test
     void testCreate() throws Exception {
@@ -154,6 +159,40 @@ public class ProductControllerTest {
 
         assertThat(productIdArgumentCaptor.getValue()).isEqualTo(1L);
         assertThat(productRequestDTOArgumentCaptor.getValue()).isEqualTo(productToUpdate);
+    }
+
+    @Test
+    void testUpdateActiveStatus() throws Exception {
+        ProductActiveStatusDTO activeStatusDTO = new ProductActiveStatusDTO(false);
+        ProductResponseDTO updatedProduct = JsonTestUtils.loadMock("mocks/controllers/product-controller/inactive-product-response-dto.json", ProductResponseDTO.class);
+
+        given(productService.changeActiveStatus(1L, activeStatusDTO)).willReturn(Optional.of(updatedProduct));
+
+        // then
+        mockMvc.perform(patch(PRODUCT_PATH, 1L)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(activeStatusDTO)))
+                .andExpect(status().isOk());
+
+        verify(productService).changeActiveStatus(productIdArgumentCaptor.capture(), productActiveStatusDTOArgumentCaptor.capture());
+
+        assertThat(productIdArgumentCaptor.getValue()).isEqualTo(1L);
+        assertThat(productActiveStatusDTOArgumentCaptor.getValue().active()).isEqualTo(false);
+    }
+
+    @Test
+    void testUpdateActiveStatus_whenProductNotFound() throws Exception {
+        ProductActiveStatusDTO activeStatusDTO = new ProductActiveStatusDTO(false);
+        given(productService.changeActiveStatus(1L, activeStatusDTO)).willReturn(Optional.empty());
+
+        // then
+        mockMvc.perform(patch(PRODUCT_PATH, 1L)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(activeStatusDTO)))
+                .andExpect(status().isNotFound());
+
     }
 
     @Test
