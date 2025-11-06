@@ -3,7 +3,8 @@ package pl.sdtt.ecommerce.services.impl;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.sdtt.ecommerce.dto.ProductDTO;
+import pl.sdtt.ecommerce.dto.product.ProductRequestDTO;
+import pl.sdtt.ecommerce.dto.product.ProductResponseDTO;
 import pl.sdtt.ecommerce.mappers.ProductMapper;
 import pl.sdtt.ecommerce.model.Category;
 import pl.sdtt.ecommerce.model.Product;
@@ -24,24 +25,24 @@ public class ProductServiceImpl implements ProductService {
     private final ProductMapper productMapper;
 
     @Override
-    public Set<ProductDTO> findAll() {
+    public Set<ProductResponseDTO> findAll() {
         return productRepository.findAll().stream().map(productMapper::toDTO).collect(Collectors.toSet());
     }
 
     @Override
-    public Optional<ProductDTO> findById(Long id) {
+    public Optional<ProductResponseDTO> findById(Long id) {
         return productRepository.findById(id).map(productMapper::toDTO);
     }
 
     @Override
-    public Optional<ProductDTO> create(ProductDTO productDTO) {
+    public ProductResponseDTO create(ProductRequestDTO productDTO) {
         Product productToUpdate = productMapper.toEntity(productDTO);
         Product createdProduct = productRepository.save(productToUpdate);
-        return Optional.of(productMapper.toDTO(createdProduct));
+        return productMapper.toDTO(createdProduct);
     }
 
     @Override
-    public Optional<ProductDTO> update(Long id, ProductDTO productDTO) {
+    public Optional<ProductResponseDTO> update(Long id, ProductRequestDTO productDTO) {
         Product foundProduct = productRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Product " + id + " not found"));
 

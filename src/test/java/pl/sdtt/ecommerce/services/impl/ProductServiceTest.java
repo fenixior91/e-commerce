@@ -11,7 +11,8 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import pl.sdtt.ecommerce.JsonTestUtils;
-import pl.sdtt.ecommerce.dto.ProductDTO;
+import pl.sdtt.ecommerce.dto.product.ProductRequestDTO;
+import pl.sdtt.ecommerce.dto.product.ProductResponseDTO;
 import pl.sdtt.ecommerce.mappers.ProductMapper;
 import pl.sdtt.ecommerce.model.Category;
 import pl.sdtt.ecommerce.model.Product;
@@ -64,7 +65,7 @@ public class ProductServiceTest {
         given(productRepository.findAll()).willReturn(new ArrayList<>());
 
         // when
-        Set<ProductDTO> actual = productServiceImpl.findAll();
+        Set<ProductResponseDTO> actual = productServiceImpl.findAll();
 
         // then
         assertThat(actual).isNotNull();
@@ -80,7 +81,7 @@ public class ProductServiceTest {
         given(productRepository.findAll()).willReturn(Arrays.asList(product1, product2));
 
         // when
-        Set<ProductDTO> actual = productServiceImpl.findAll();
+        Set<ProductResponseDTO> actual = productServiceImpl.findAll();
 
         // then
         assertThat(actual).isNotNull();
@@ -90,11 +91,11 @@ public class ProductServiceTest {
     @Test
     void testFindById() {
         // given
-        Product product = JsonTestUtils.loadMock("mocks/services/product-service/product.json", Product.class);
+        Product product = JsonTestUtils.loadMock("mocks/services/product-service/product-entity.json", Product.class);
         given(productRepository.findById(anyLong())).willReturn(Optional.of(product));
 
         // when
-        Optional<ProductDTO> actual = productServiceImpl.findById(1L);
+        Optional<ProductResponseDTO> actual = productServiceImpl.findById(1L);
 
         // then
         assertThat(actual).isPresent();
@@ -112,7 +113,7 @@ public class ProductServiceTest {
         given(productRepository.findById(anyLong())).willReturn(Optional.empty());
 
         // when
-        Optional<ProductDTO> actual = productServiceImpl.findById(1L);
+        Optional<ProductResponseDTO> actual = productServiceImpl.findById(1L);
 
         // then
         assertThat(actual).isEmpty();
@@ -123,25 +124,22 @@ public class ProductServiceTest {
     @Test
     void testCreate() {
         // given
-        ProductDTO productToCreateDTO = JsonTestUtils.loadMock("mocks/services/product-service/product-dto.json", ProductDTO.class);
-        Product createdProduct = JsonTestUtils.loadMock("mocks/services/product-service/created-updated-product.json", Product.class);
+        ProductRequestDTO productToCreateDTO = JsonTestUtils.loadMock("mocks/services/product-service/product-request-dto.json", ProductRequestDTO.class);
+        Product createdProduct = JsonTestUtils.loadMock("mocks/services/product-service/product-entity.json", Product.class);
 
         given(productRepository.save(any())).willReturn(createdProduct);
 
         // when
-        Optional<ProductDTO> actual = productServiceImpl.create(productToCreateDTO);
+        ProductResponseDTO actual = productServiceImpl.create(productToCreateDTO);
 
         // then
-        assertThat(actual).isPresent();
-        ProductDTO dto = actual.get();
-
-        assertThat(dto.id()).isEqualTo(1L);
-        assertThat(dto.name()).isEqualTo("Product updated");
-        assertThat(dto.description()).isEqualTo("Product description updated");
-        assertThat(dto.price()).isEqualTo(new BigDecimal("22"));
-        assertThat(dto.stockQuantity()).isEqualTo(9);
-        assertThat(dto.imageUrl()).isEqualTo("https://example.com");
-        assertThat(dto.categoryId()).isEqualTo(1L);
+        assertThat(actual.id()).isEqualTo(1L);
+        assertThat(actual.name()).isEqualTo("Product");
+        assertThat(actual.description()).isEqualTo("Product description");
+        assertThat(actual.price()).isEqualTo(new BigDecimal("21.37"));
+        assertThat(actual.stockQuantity()).isEqualTo(10);
+        assertThat(actual.imageUrl()).isEqualTo("https://example.com");
+        assertThat(actual.categoryId()).isEqualTo(1L);
 
         verify(productRepository).save(productArgumentCaptor.capture());
 
@@ -157,26 +155,26 @@ public class ProductServiceTest {
     @Test
     void testUpdate() {
         // given
-        Category category = JsonTestUtils.loadMock("mocks/services/product-service/category.json", Category.class);
-        Product product = JsonTestUtils.loadMock("mocks/services/product-service/product.json", Product.class);
-        ProductDTO productToUpdateDTO = JsonTestUtils.loadMock("mocks/services/product-service/product-dto.json", ProductDTO.class);
-        Product updatedProduct = JsonTestUtils.loadMock("mocks/services/product-service/created-updated-product.json", Product.class);
+        Category category = JsonTestUtils.loadMock("mocks/services/product-service/category-entity.json", Category.class);
+        Product product = JsonTestUtils.loadMock("mocks/services/product-service/product-entity.json", Product.class);
+        ProductRequestDTO productToUpdateDTO = JsonTestUtils.loadMock("mocks/services/product-service/product-request-dto.json", ProductRequestDTO.class);
+        Product updatedProduct = JsonTestUtils.loadMock("mocks/services/product-service/product-entity.json", Product.class);
 
         given(productRepository.findById(anyLong())).willReturn(Optional.of(product));
         given(productRepository.save(any())).willReturn(updatedProduct);
         given(categoryRepository.findById(anyLong())).willReturn(Optional.of(category));
 
         // when
-        Optional<ProductDTO> actual = productServiceImpl.update(1L, productToUpdateDTO);
+        Optional<ProductResponseDTO> actual = productServiceImpl.update(1L, productToUpdateDTO);
 
         // then
         assertThat(actual).isPresent();
-        ProductDTO dto = actual.get();
+        ProductResponseDTO dto = actual.get();
         assertThat(dto.id()).isEqualTo(1L);
-        assertThat(dto.name()).isEqualTo("Product updated");
-        assertThat(dto.description()).isEqualTo("Product description updated");
-        assertThat(dto.price()).isEqualTo(new BigDecimal("22"));
-        assertThat(dto.stockQuantity()).isEqualTo(9);
+        assertThat(dto.name()).isEqualTo("Product");
+        assertThat(dto.description()).isEqualTo("Product description");
+        assertThat(dto.price()).isEqualTo(new BigDecimal("21.37"));
+        assertThat(dto.stockQuantity()).isEqualTo(10);
         assertThat(dto.imageUrl()).isEqualTo("https://example.com");
         assertThat(dto.categoryId()).isEqualTo(1L);
 
@@ -195,7 +193,7 @@ public class ProductServiceTest {
     @Test
     void testUpdate_whenProductNotFound() {
         // given
-        ProductDTO productToUpdateDTO = JsonTestUtils.loadMock("mocks/services/product-service/product-dto.json", ProductDTO.class);
+        ProductRequestDTO productToUpdateDTO = JsonTestUtils.loadMock("mocks/services/product-service/product-request-dto.json", ProductRequestDTO.class);
         given(productRepository.findById(anyLong())).willReturn(Optional.empty());
 
         // when
@@ -209,8 +207,8 @@ public class ProductServiceTest {
     @Test
     void testUpdate_whenCategoryNotFound() {
         // given
-        Product product = JsonTestUtils.loadMock("mocks/services/product-service/product.json", Product.class);
-        ProductDTO productToUpdateDTO = JsonTestUtils.loadMock("mocks/services/product-service/product-dto.json", ProductDTO.class);
+        Product product = JsonTestUtils.loadMock("mocks/services/product-service/product-entity.json", Product.class);
+        ProductRequestDTO productToUpdateDTO = JsonTestUtils.loadMock("mocks/services/product-service/product-request-dto.json", ProductRequestDTO.class);
 
         given(productRepository.findById(anyLong())).willReturn(Optional.of(product));
         given(categoryRepository.findById(anyLong())).willReturn(Optional.empty());
@@ -231,7 +229,7 @@ public class ProductServiceTest {
     @Test
     void testDelete() {
         // given
-        Product product = JsonTestUtils.loadMock("mocks/services/product-service/product.json", Product.class);
+        Product product = JsonTestUtils.loadMock("mocks/services/product-service/product-entity.json", Product.class);
 
         given(productRepository.findById(anyLong())).willReturn(Optional.of(product));
 

@@ -1,12 +1,11 @@
-package pl.sdtt.ecommerce.dto;
+package pl.sdtt.ecommerce.dto.product;
 
 import lombok.Builder;
 
 import java.math.BigDecimal;
 
 @Builder
-public record ProductDTO(
-        Long id,
+public record ProductRequestDTO(
         Long categoryId,
         String name,
         String description,
