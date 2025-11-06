@@ -1,0 +1,9 @@
+{
+  "id": 1,
+  "name": "Product",
+  "description": "Product description",
+  "price": 22,
+  "stockQuantity": 9,
+  "imageUrl": "https://example.com",
+  "categoryId": 1
+}

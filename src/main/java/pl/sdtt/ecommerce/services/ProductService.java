@@ -1,19 +1,20 @@
 package pl.sdtt.ecommerce.services;
 
-import pl.sdtt.ecommerce.dto.ProductDTO;
+import pl.sdtt.ecommerce.dto.product.ProductRequestDTO;
+import pl.sdtt.ecommerce.dto.product.ProductResponseDTO;
 
 import java.util.Optional;
 import java.util.Set;
 
 public interface ProductService {
 
-    Set<ProductDTO> findAll();
+    Set<ProductResponseDTO> findAll();
 
-    Optional<ProductDTO> findById(Long id);
+    Optional<ProductResponseDTO> findById(Long id);
 
-    Optional<ProductDTO> create(ProductDTO productDTO);
+    ProductResponseDTO create(ProductRequestDTO productDTO);
 
-    Optional<ProductDTO> update(Long id, ProductDTO productDTO);
+    Optional<ProductResponseDTO> update(Long id, ProductRequestDTO productDTO);
 
     void delete(Long id);
 }

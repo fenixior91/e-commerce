@@ -2,7 +2,8 @@ package pl.sdtt.ecommerce.mappers;
 
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
-import pl.sdtt.ecommerce.dto.ProductDTO;
+import pl.sdtt.ecommerce.dto.product.ProductRequestDTO;
+import pl.sdtt.ecommerce.dto.product.ProductResponseDTO;
 import pl.sdtt.ecommerce.model.Category;
 import pl.sdtt.ecommerce.model.Product;
 
@@ -24,7 +25,7 @@ public class ProductMapperTest {
         int stockQuantity = 10;
         String imageUrl = "https://example.com";
 
-        ProductDTO productDTO = ProductDTO.builder()
+        ProductRequestDTO productDTO = ProductRequestDTO.builder()
                 .categoryId(categoryId)
                 .name(name)
                 .description(description)
@@ -78,7 +79,7 @@ public class ProductMapperTest {
                 .build();
 
         //when
-        ProductDTO productDTO = productMapper.toDTO(product);
+        ProductResponseDTO productDTO = productMapper.toDTO(product);
 
         //then
         assertThat(productDTO).isNotNull();

@@ -3,7 +3,8 @@ package pl.sdtt.ecommerce.mappers;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
-import pl.sdtt.ecommerce.dto.ProductDTO;
+import pl.sdtt.ecommerce.dto.product.ProductRequestDTO;
+import pl.sdtt.ecommerce.dto.product.ProductResponseDTO;
 import pl.sdtt.ecommerce.model.Category;
 import pl.sdtt.ecommerce.model.Product;
 
@@ -17,10 +18,10 @@ public interface ProductMapper {
     @Mapping(target = "reviews", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
-    Product toEntity(ProductDTO productDTO);
+    Product toEntity(ProductRequestDTO productDTO);
 
     @Mapping(target = "categoryId", source = "category.id")
-    ProductDTO toDTO(Product product);
+    ProductResponseDTO toDTO(Product product);
 
     @Named("mapCategoryIdToCategory")
     default Category mapCategoryIdToCategory(Long categoryId) {
