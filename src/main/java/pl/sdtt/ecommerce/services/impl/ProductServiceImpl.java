@@ -3,6 +3,7 @@ package pl.sdtt.ecommerce.services.impl;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.sdtt.ecommerce.dto.product.ProductActiveStatusDTO;
 import pl.sdtt.ecommerce.dto.product.ProductRequestDTO;
 import pl.sdtt.ecommerce.dto.product.ProductResponseDTO;
 import pl.sdtt.ecommerce.mappers.ProductMapper;
@@ -65,5 +66,15 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() -> new EntityNotFoundException("Product " + id + " not found"));
 
         productRepository.delete(foundProduct);
+    }
+
+    @Override
+    public Optional<ProductResponseDTO> changeActiveStatus(Long id, ProductActiveStatusDTO activeStatusDTO) {
+        Product foundProduct = productRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Product " + id + " not found"));
+
+        foundProduct.setActive(activeStatusDTO.active());
+
+        return Optional.of(productMapper.toDTO(productRepository.save(foundProduct)));
     }
 }

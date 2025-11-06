@@ -5,12 +5,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
+import pl.sdtt.ecommerce.dto.product.ProductActiveStatusDTO;
 import pl.sdtt.ecommerce.dto.product.ProductRequestDTO;
 import pl.sdtt.ecommerce.dto.product.ProductResponseDTO;
 import pl.sdtt.ecommerce.services.ProductService;
@@ -56,6 +58,12 @@ public class ProductController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping(PRODUCT_PATH)
+    public ResponseEntity<ProductResponseDTO> changeActiveStatus(@PathVariable(PRODUCT_ID) Long productId, @RequestBody ProductActiveStatusDTO activeStatusDTO) {
+        Optional<ProductResponseDTO> updatedProductDTO = productService.changeActiveStatus(productId, activeStatusDTO);
+        return updatedProductDTO.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping(PRODUCT_PATH)

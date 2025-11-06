@@ -11,5 +11,6 @@ public record ProductRequestDTO(
         String description,
         BigDecimal price,
         int stockQuantity,
-        String imageUrl) {
+        String imageUrl,
+        boolean active) {
 }

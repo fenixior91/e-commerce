@@ -6,7 +6,7 @@
   "price": 21.37,
   "stockQuantity": 10,
   "imageUrl": "https://example.com",
-  "active": true,
+  "active": false,
   "cartItems": [],
   "orderItems": [],
   "reviews": [],

@@ -59,6 +59,8 @@ public class Product {
 
     private BigDecimal price;
 
+    private boolean active;
+
     @Column(name = "stock_quantity")
     private int stockQuantity;
 
