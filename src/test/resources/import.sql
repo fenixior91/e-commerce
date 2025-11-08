@@ -39,7 +39,7 @@ INSERT INTO categories (version, name, description, created_at, updated_at) VALU
 -- =====================
 -- PRODUCTS (20)
 -- =====================
-INSERT INTO products (version, name, description, price, stock_quantity, category_id, image_url, created_at, updated_at, active) VALUES (0, 'Smartfon XYZ', 'Nowoczesny smartfon', 1999.99, 10, 1, 'https://example.com/xyz.jpg', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), true);
+INSERT INTO products (version, name, description, price, stock_quantity, category_id, image_url, created_at, updated_at, active) VALUES (0, 'Smartfon XYZ', 'Nowoczesny smartfon', 1999.99, 10, 1, 'https://example.com/xyz.jpg', '2025-10-25 13:00:00.000', '2025-10-25 13:00:00.000', true);
 INSERT INTO products (version, name, description, price, stock_quantity, category_id, image_url, created_at, updated_at, active) VALUES (0, 'Laptop ABC', 'Laptop do pracy i nauki', 3499.99, 5, 1, 'https://example.com/abc.jpg', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), true);
 INSERT INTO products (version, name, description, price, stock_quantity, category_id, image_url, created_at, updated_at, active) VALUES (0, 'Tablet QWE', 'Tablet multimedialny', 1599.99, 8, 1, 'https://example.com/tablet.jpg', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), true);
 INSERT INTO products (version, name, description, price, stock_quantity, category_id, image_url, created_at, updated_at, active) VALUES (0, 'T-shirt Cool', 'Bawełniana koszulka', 49.99, 50, 2, 'https://example.com/tshirt.jpg', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), true);

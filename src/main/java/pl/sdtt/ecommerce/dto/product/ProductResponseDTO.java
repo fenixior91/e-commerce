@@ -3,6 +3,7 @@ package pl.sdtt.ecommerce.dto.product;
 import lombok.Builder;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Builder
 public record ProductResponseDTO(
@@ -13,5 +14,7 @@ public record ProductResponseDTO(
         BigDecimal price,
         int stockQuantity,
         String imageUrl,
-        boolean active) {
+        boolean active,
+        LocalDateTime createdAt,
+        LocalDateTime updatedAt) {
 }
